@@ -5,6 +5,10 @@ class Tree
     self.data = data
   end
 
+  def active
+    data.flatten.select{|n| n.active }
+  end
+
   def nearby(node)
     [
       get(node.r, node.c - 1),
@@ -16,6 +20,18 @@ class Tree
       get(node.r + 1, node.c + 1),
       get(node.r + 1, node.c - 1),
     ].compact.select(&:available?)
+  end
+
+  def get_node_from_value value
+    data.flatten.select{|n| n.has_value? value}.first
+  end
+
+  def set_distances_to_end finish
+    data.flatten.each{|n| n.set_distance_to_end finish.r, finish.c }
+  end
+
+  def set_distances_to_start start
+    data.flatten.each{|n| n.set_distance_to_start start.r, start.c }
   end
 
   def get(r, c)
@@ -31,6 +47,16 @@ class Tree
     data.each do |row|
       printable_row = row.map do |column|
         column.v
+      end.join(" | ")
+      puts "|" + printable_row + "|"
+    end
+    puts "\n"
+  end
+
+  def print_processed
+    data.each do |row|
+      printable_row = row.map do |column|
+        column.locked || column.active ? "P" : " "
       end.join(" | ")
       puts "|" + printable_row + "|"
     end
