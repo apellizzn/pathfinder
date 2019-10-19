@@ -1,5 +1,5 @@
 class Tree
-  attr_accessor :data
+  attr_accessor :data, :start, :finish
 
   def initialize(data)
     self.data = data
@@ -24,14 +24,6 @@ class Tree
 
   def get_node_from_value value
     data.flatten.select{|n| n.has_value? value}.first
-  end
-
-  def set_distances_to_end finish
-    data.flatten.each{|n| n.set_distance_to_end finish.r, finish.c }
-  end
-
-  def set_distances_to_start start
-    data.flatten.each{|n| n.set_distance_to_start start.r, start.c }
   end
 
   def get(r, c)
