@@ -6,7 +6,7 @@ def select_best_active active
 end
 
 def process node, current
-  node.activate!
+  node.activate
   node.set_distance_to_start START.r, START.c
   node.set_distance_to_end FINISH.r, FINISH.c
   node.prev = current
@@ -32,7 +32,7 @@ START = tree.get_node_from_value "A"
 FINISH = tree.get_node_from_value "B"
 
 current = START
-current.activate!
+current.activate
 
 loop do
   current.lock!

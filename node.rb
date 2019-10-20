@@ -17,7 +17,7 @@ class Node
     v == value
   end
 
-  def activate!
+  def activate
     @active = true
   end
 

@@ -1,25 +1,18 @@
 class Tree
   attr_accessor :data, :start, :finish
 
+  COORD = [[0,-1],[0,1],[1,-1],[1,0],[1,1],[-1,-1],[-1,0],[-1,1]]
+
   def initialize(data)
     self.data = data
   end
 
   def active
-    data.flatten.select{|n| n.active }
+    data.flatten.select(&:active)
   end
 
   def nearby(node)
-    [
-      get(node.r, node.c - 1),
-      get(node.r, node.c + 1),
-      get(node.r - 1, node.c),
-      get(node.r - 1, node.c + 1),
-      get(node.r - 1, node.c - 1),
-      get(node.r + 1, node.c),
-      get(node.r + 1, node.c + 1),
-      get(node.r + 1, node.c - 1),
-    ].compact.select(&:available?)
+    COORD.map {|coord| get(node.r + coord[0], node.c + coord[1]) }.compact.select(&:available?)
   end
 
   def get_node_from_value value
@@ -31,16 +24,12 @@ class Tree
     out_of_range ? nil : data[r][c]
   end
 
-  def set(node)
-    data[node.r][node.c] = node
-  end
-
   def print
     data.each do |row|
       printable_row = row.map do |column|
         column.v
       end.join(" | ")
-      puts "|" + printable_row + "|"
+      puts "| " + printable_row + " |"
     end
     puts "\n"
   end
